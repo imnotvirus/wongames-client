@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
+import media from 'styled-media-query'
 import { LogoProps } from '.'
-
 const wrapperModifiers = {
   normal: () => css`
     width: 11rem;
@@ -9,12 +9,27 @@ const wrapperModifiers = {
   large: () => css`
     width: 20rem;
     height: 5.9rem;
+  `,
+  hideOnMobile: () => css`
+    ${media.lessThan('medium')`
+    width: 5.8rem;
+    height: 4.5rem;
+
+    svg {
+      height: 4.5rem;
+      pointer-event: 'none';
+    }
+    .logo-text {
+      display: none;
+    }
+    `}
   `
 }
 
 export const Wrapper = styled.div<LogoProps>`
-  ${({ theme, color, size }) => css`
+  ${({ theme, color, size, hideOnMobile }) => css`
     color: ${theme.colors[color!]};
-    ${!!size && wrapperModifiers[size]()}
+    ${!!size && wrapperModifiers[size]}
+    ${!!hideOnMobile && wrapperModifiers.hideOnMobile()}
   `}
 `
